@@ -4,21 +4,21 @@
  * @param treeId -
  *            ID дерева
  */
-tabaga.TreeControl = function(id, treeEl) {
-	tabaga.AbstractTreeControl.apply(this, arguments);
+tree3.TreeControl = function(id, treeEl) {
+	tree3.AbstractTreeControl.apply(this, arguments);
 };
 
-tabaga.TreeControl.prototype = Object
-		.create(tabaga.AbstractTreeControl.prototype);
+tree3.TreeControl.prototype = Object
+		.create(tree3.AbstractTreeControl.prototype);
 
 /**
  * Начальная инициализация дерева
  */
-tabaga.TreeControl.prototype.init = function(rootNodes) {
+tree3.TreeControl.prototype.init = function(rootNodes) {
 	this.appendNewNodes(this.treeEl, rootNodes);
 };
 
-tabaga.TreeControl.prototype.updateRootNodes = function(rootNodes,
+tree3.TreeControl.prototype.updateRootNodes = function(rootNodes,
 		updateCloseState) {
 	this.updateExistUlNodesContainer(this.treeEl, rootNodes, updateCloseState);
 };
@@ -26,7 +26,7 @@ tabaga.TreeControl.prototype.updateRootNodes = function(rootNodes,
 /**
  * Обновляет содержимое существующего контейнера узлов UL
  */
-tabaga.TreeControl.prototype.updateExistUlNodesContainer = function(
+tree3.TreeControl.prototype.updateExistUlNodesContainer = function(
 		ulContainer, newNodes, updateCloseState) {
 	var oldNodes = null;
 	if (ulContainer) {
@@ -106,7 +106,7 @@ tabaga.TreeControl.prototype.updateExistUlNodesContainer = function(
 	}
 };
 
-tabaga.TreeControl.prototype.updateLoadedNode = function(oldNode, newNode) {
+tree3.TreeControl.prototype.updateLoadedNode = function(oldNode, newNode) {
 	this.updateExistNode(oldNode, newNode, false);
 	this.updateLinkInParentChildren(newNode);
 };
@@ -114,7 +114,7 @@ tabaga.TreeControl.prototype.updateLoadedNode = function(oldNode, newNode) {
 /**
  * Обновляет узел и все дочерние узлы из новой модели узла
  */
-tabaga.TreeControl.prototype.updateExistNode = function(oldNode, newNode,
+tree3.TreeControl.prototype.updateExistNode = function(oldNode, newNode,
 		updateCloseState) {
 	var nodeEl = oldNode.nodeEl;
 	var oldSubnodes = oldNode.children;
@@ -183,11 +183,11 @@ tabaga.TreeControl.prototype.updateExistNode = function(oldNode, newNode,
 /**
  * Установка для элемента узла span возможности перемещения в под выбранный узел
  */
-tabaga.TreeControl.prototype.enableChildren = function(nodeEl, enable) {
+tree3.TreeControl.prototype.enableChildren = function(nodeEl, enable) {
 	if (enable) {
 		var hitareaDiv = document.createElement("div");
-		hitareaDiv.className = tabaga.AbstractTreeControl.TREE_CLASSES.hitarea
-				+ " " + tabaga.AbstractTreeControl.TREE_CLASSES.closedHitarea;
+		hitareaDiv.className = tree3.AbstractTreeControl.TREE_CLASSES.hitarea
+				+ " " + tree3.AbstractTreeControl.TREE_CLASSES.closedHitarea;
 		nodeEl.insertBefore(hitareaDiv, nodeEl.firstChild);
 		nodeEl.hitareaDiv = hitareaDiv;
 		nodeEl.hasChildren = true;
@@ -209,9 +209,9 @@ tabaga.TreeControl.prototype.enableChildren = function(nodeEl, enable) {
 /**
  * Создать видимую часть узла
  */
-tabaga.TreeControl.prototype.createNodeAppearance = function(nodeEl, nodeModel) {
+tree3.TreeControl.prototype.createNodeAppearance = function(nodeEl, nodeModel) {
 	var nodeSpan = document.createElement("span");
-	nodeSpan.className = tabaga.AbstractTreeControl.TREE_CLASSES.treeNode;
+	nodeSpan.className = tree3.AbstractTreeControl.TREE_CLASSES.treeNode;
 	nodeSpan.innerHTML = nodeModel.title;
 	nodeEl.appendChild(nodeSpan);
 	nodeEl.nodeSpan = nodeSpan;
@@ -220,7 +220,7 @@ tabaga.TreeControl.prototype.createNodeAppearance = function(nodeEl, nodeModel) 
 /**
  * Обновляет видимую часть узла
  */
-tabaga.TreeControl.prototype.updateNodeAppearance = function(nodeEl, nodeModel) {
+tree3.TreeControl.prototype.updateNodeAppearance = function(nodeEl, nodeModel) {
 	var nodeSpan = nodeEl.nodeSpan;
 	nodeSpan.innerHTML = nodeModel.title;
 };
@@ -228,12 +228,12 @@ tabaga.TreeControl.prototype.updateNodeAppearance = function(nodeEl, nodeModel) 
 /**
  * Добавить новый узел
  */
-tabaga.TreeControl.prototype.appendNewNode = function(parentUl, newNode) {
+tree3.TreeControl.prototype.appendNewNode = function(parentUl, newNode) {
 	var newLi = document.createElement("li");
 
 	// задаем onclick обработчик по умолчанию.
 	// При желании можно поменять перегрузив appendNewNode
-	newLi.onclick = tabaga.AbstractTreeControl.onClickTreeNode;
+	newLi.onclick = tree3.AbstractTreeControl.onClickTreeNode;
 
 	parentUl.appendChild(newLi);
 	var subnodes = newNode.children;
@@ -264,7 +264,7 @@ tabaga.TreeControl.prototype.appendNewNode = function(parentUl, newNode) {
 /**
  * Вставить массив новых узлов
  */
-tabaga.TreeControl.prototype.appendNewNodes = function(ulContainer, newNodes) {
+tree3.TreeControl.prototype.appendNewNodes = function(ulContainer, newNodes) {
 	ulContainer.nodeModels = newNodes;
 	for (var i = 0; i < newNodes.length; i++) {
 		var newNode = newNodes[i];
@@ -282,7 +282,7 @@ tabaga.TreeControl.prototype.appendNewNodes = function(ulContainer, newNodes) {
 /**
  * Удалить существующий узел
  */
-tabaga.TreeControl.prototype.deleteExistSubNode = function(parentUl,
+tree3.TreeControl.prototype.deleteExistSubNode = function(parentUl,
 		deletedNode) {
 	var deletedLi = deletedNode.nodeEl;
 
@@ -311,7 +311,7 @@ tabaga.TreeControl.prototype.deleteExistSubNode = function(parentUl,
 /**
  * Переместить существующий узел
  */
-tabaga.TreeControl.prototype.moveToEndExistSubNode = function(parentUl,
+tree3.TreeControl.prototype.moveToEndExistSubNode = function(parentUl,
 		movedNode) {
 	var movedNodeEl = movedNode.nodeEl;
 
@@ -323,11 +323,11 @@ tabaga.TreeControl.prototype.moveToEndExistSubNode = function(parentUl,
 /**
  * Переместить существующий узел после указанного узла
  */
-tabaga.TreeControl.prototype.moveToAfterExistSubNode = function(parentUl,
+tree3.TreeControl.prototype.moveToAfterExistSubNode = function(parentUl,
 		movedNode, afterNode) {
 	var movedNodeEl = movedNode.nodeEl;
 	if (afterNode) {
-		tabaga.insertAfter(movedNodeEl, afterNode.nodeEl);
+		tree3.insertAfter(movedNodeEl, afterNode.nodeEl);
 	} else {
 		parentUl.insertBefore(movedNodeEl, parentUl.firstChild);
 	}
@@ -336,23 +336,23 @@ tabaga.TreeControl.prototype.moveToAfterExistSubNode = function(parentUl,
 /**
  * Установить видимость выделения узла
  */
-tabaga.TreeControl.prototype.setSelectionTreeNode = function(nodeEl) {
-	var CLASSES = tabaga.AbstractTreeControl.TREE_CLASSES;
+tree3.TreeControl.prototype.setSelectionTreeNode = function(nodeEl) {
+	var CLASSES = tree3.AbstractTreeControl.TREE_CLASSES;
 
 	// снять предыдущий выделенный
 	if (this.currentSelectedNodeEl) {
-		tabaga.removeClass(this.currentSelectedNodeEl.nodeSpan,
+		tree3.removeClass(this.currentSelectedNodeEl.nodeSpan,
 				CLASSES.selectedNode);
 	}
 
 	this.currentSelectedNodeEl = nodeEl;
-	tabaga.addClass(this.currentSelectedNodeEl.nodeSpan, CLASSES.selectedNode);
+	tree3.addClass(this.currentSelectedNodeEl.nodeSpan, CLASSES.selectedNode);
 };
 
-tabaga.TreeControl.prototype.clearSelectionTreeNode = function() {
-	var CLASSES = tabaga.AbstractTreeControl.TREE_CLASSES;
+tree3.TreeControl.prototype.clearSelectionTreeNode = function() {
+	var CLASSES = tree3.AbstractTreeControl.TREE_CLASSES;
 	if (this.currentSelectedNodeEl) {
-		tabaga.removeClass(this.currentSelectedNodeEl.nodeSpan,
+		tree3.removeClass(this.currentSelectedNodeEl.nodeSpan,
 				CLASSES.selectedNode);
 	}
 	this.currentSelectedNodeEl = null;
@@ -363,7 +363,7 @@ tabaga.TreeControl.prototype.clearSelectionTreeNode = function() {
  * 
  * @param nodeElHtml
  */
-tabaga.TreeControl.prototype.selectTreeNode = function(nodeEl, setClosed) {
+tree3.TreeControl.prototype.selectTreeNode = function(nodeEl, setClosed) {
 	this.setSelectionTreeNode(nodeEl);
 	this.setNodeClose(nodeEl, setClosed);
 
@@ -373,8 +373,8 @@ tabaga.TreeControl.prototype.selectTreeNode = function(nodeEl, setClosed) {
 	}
 };
 
-tabaga.TreeControl.prototype.setNodeClose = function(nodeEl, closed) {
-	tabaga.AbstractTreeControl.prototype.setNodeClose.apply(this, arguments);
+tree3.TreeControl.prototype.setNodeClose = function(nodeEl, closed) {
+	tree3.AbstractTreeControl.prototype.setNodeClose.apply(this, arguments);
 
 	var hasChildren = nodeEl.hasChildren;
 	if (!hasChildren) {
