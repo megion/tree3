@@ -8,7 +8,8 @@ tree3.TreetableControl = function(id, treeEl) {
 	tree3.AbstractTreeControl.apply(this, arguments);
 };
 
-tree3.TreetableControl.prototype = Object.create(tree3.AbstractTreeControl.prototype);
+tree3.TreetableControl.prototype = Object
+		.create(tree3.AbstractTreeControl.prototype);
 
 /**
  * Начальная инициализация дерева
@@ -25,8 +26,8 @@ tree3.TreetableControl.prototype.init = function(rootNodes) {
 	}
 	this.rootNodes = rootNodes;
 	this.appendNewNodes(rootNodes, 0, null);
-	
-	for ( var i = 0; i < rootNodes.length; i++) {
+
+	for (var i = 0; i < rootNodes.length; i++) {
 		var node = rootNodes[i];
 		node.nodeEl.style.display = null;
 	}
@@ -35,8 +36,9 @@ tree3.TreetableControl.prototype.init = function(rootNodes) {
 /**
  * Вставить массив корневых новых узлов
  */
-tree3.TreetableControl.prototype.appendNewNodes = function(newNodes, level, insertInfo) {
-	for ( var i = 0; i < newNodes.length; i++) {
+tree3.TreetableControl.prototype.appendNewNodes = function(newNodes, level,
+		insertInfo) {
+	for (var i = 0; i < newNodes.length; i++) {
 		var newNode = newNodes[i];
 		var isLast;
 		if (i == (newNodes.length - 1)) {
@@ -52,13 +54,14 @@ tree3.TreetableControl.prototype.appendNewNodes = function(newNodes, level, inse
 /**
  * Добавить новый узел
  */
-tree3.TreetableControl.prototype.appendNewNode = function(newNode, level, insertInfo) {
-	var newTr = document.createElement("tr");
-	
+tree3.TreetableControl.prototype.appendNewNode = function(newNode, level,
+		insertInfo) {
+	var newTr = document.createElement('tr');
+
 	// задаем onclick обработчик по умолчанию.
-	// При желании можно поменять перегрузив appendNewNode  
+	// При желании можно поменять перегрузив appendNewNode
 	newTr.onclick = tree3.AbstractTreeControl.onClickTreeNode;
-	
+
 	// append new node
 	if (insertInfo && insertInfo.prevNode) {
 		tree3.insertAfter(newTr, insertInfo.prevNode.nodeEl);
@@ -69,20 +72,20 @@ tree3.TreetableControl.prototype.appendNewNode = function(newNode, level, insert
 		insertInfo = {};
 	}
 	insertInfo.prevNode = newNode;
-	
+
 	var subnodes = newNode.children;
 
 	var hasChildren = (subnodes != null && subnodes.length > 0);
-	
-	var td1 = document.createElement("td");
+
+	var td1 = document.createElement('td');
 	newTr.appendChild(td1);
-	
-	var firstTdInnerDiv = document.createElement("div");
-	firstTdInnerDiv.style.marginLeft = level * 20 + "px";
+
+	var firstTdInnerDiv = document.createElement('div');
+	firstTdInnerDiv.style.marginLeft = level * 20 + 'px';
 	firstTdInnerDiv.className = tree3.AbstractTreeControl.TREE_CLASSES.firstTdInner;
 	td1.appendChild(firstTdInnerDiv);
 
-	var nodeSpan = document.createElement("span");
+	var nodeSpan = document.createElement('span');
 	nodeSpan.className = tree3.AbstractTreeControl.TREE_CLASSES.treeNode;
 	nodeSpan.innerHTML = newNode.title;
 	firstTdInnerDiv.appendChild(nodeSpan);
@@ -96,7 +99,7 @@ tree3.TreetableControl.prototype.appendNewNode = function(newNode, level, insert
 	// обновлении дерева
 	newTr.nodeModel = newNode;
 	newNode.nodeEl = newTr;
-	newTr.style.display = "none";	
+	newTr.style.display = 'none';
 
 	this.allNodesMap[newNode.id] = newNode;
 
@@ -105,7 +108,7 @@ tree3.TreetableControl.prototype.appendNewNode = function(newNode, level, insert
 		this.enableChildren(newTr, true);
 		this.appendNewNodes(subnodes, level + 1, insertInfo);
 	}
-	
+
 	return newTr;
 };
 
@@ -114,8 +117,9 @@ tree3.TreetableControl.prototype.appendNewNode = function(newNode, level, insert
  */
 tree3.TreetableControl.prototype.enableChildren = function(nodeEl, enable) {
 	if (enable) {
-		var hitareaDiv = document.createElement("div");
-		hitareaDiv.className = tree3.AbstractTreeControl.TREE_CLASSES.hitarea + " " +  tree3.AbstractTreeControl.TREE_CLASSES.closedHitarea;
+		var hitareaDiv = document.createElement('div');
+		hitareaDiv.className = tree3.AbstractTreeControl.TREE_CLASSES.hitarea
+				+ ' ' + tree3.AbstractTreeControl.TREE_CLASSES.closedHitarea;
 		nodeEl.firstTdInnerDiv.insertBefore(hitareaDiv, nodeEl.nodeSpan);
 		nodeEl.hitareaDiv = hitareaDiv;
 		nodeEl.hasChildren = true;
@@ -126,39 +130,41 @@ tree3.TreetableControl.prototype.enableChildren = function(nodeEl, enable) {
 	}
 };
 
-tree3.TreetableControl.prototype.updateRootNodes = function(newRootNodes, updateCloseState) {
+tree3.TreetableControl.prototype.updateRootNodes = function(newRootNodes,
+		updateCloseState) {
 	this.updateNodes(newRootNodes, this.rootNodes, updateCloseState, 0, null);
 	this.newRootNodes = newRootNodes;
 };
 
 /**
- * Обновляет элементы начиная с корня 
+ * Обновляет элементы начиная с корня
  */
-tree3.TreetableControl.prototype.updateNodes = function(newNodes, oldNodes, updateCloseState, level, insertInfo) {
+tree3.TreetableControl.prototype.updateNodes = function(newNodes, oldNodes,
+		updateCloseState, level, insertInfo) {
 	// новых узлов нет
-	if (newNodes == null || newNodes.length == 0) {
+	if (newNodes == null || newNodes.length === 0) {
 		if (oldNodes != null && oldNodes.length > 0) {
-			for ( var i = 0; i < oldNodes.length; i++) {
-				var oldnode = oldNodes[i];
-				this.deleteExistNode(oldnode);
+			for (var j = 0; j < oldNodes.length; j++) {
+				this.deleteExistNode(oldNodes[j]);
 			}
 		}
 		return;
 	}
 
 	// подготовить new nodes HashMaps (key->nodeId, value->node)
-	var newNodesByKey = new Object();
+	var newNodesByKey = {};
+	var newNode, oldNode;
 	for (var i = 0; i < newNodes.length; i++) {
-		var newNode = newNodes[i];
+		newNode = newNodes[i];
 		newNodesByKey[newNode.id] = newNode;
 	}
 
 	// подготовить old nodes HashMaps (key->nodeId, value->node), который будет
 	// содержать только не удаленные узлы. В этом же цикле удалить узлы которых
 	// нет в новом наборе узлов
-	var oldNodesByKey = new Object();
-	for ( var i = 0; i < oldNodes.length; i++) {
-		var oldNode = oldNodes[i];
+	var oldNodesByKey = {};
+	for (i = 0; i < oldNodes.length; i++) {
+		oldNode = oldNodes[i];
 		if (newNodesByKey[oldNode.id] == null) {
 			// узел был удален
 			this.deleteExistNode(oldNode);
@@ -169,15 +175,15 @@ tree3.TreetableControl.prototype.updateNodes = function(newNodes, oldNodes, upda
 
 	// поэлементно обновить узлы
 	var prevNewNode = null;
-	for ( var i = 0; i < newNodes.length; i++) {
-		var newNode = newNodes[i];
-		var isLast; 
+	for (i = 0; i < newNodes.length; i++) {
+		newNode = newNodes[i];
+		var isLast;
 		if (i == (newNodes.length - 1)) {
 			isLast = true;
 		} else {
 			isLast = false;
 		}
-		var oldNode = oldNodesByKey[newNode.id];
+		oldNode = oldNodesByKey[newNode.id];
 		if (oldNode) {
 			if (i < oldNodes.length) {
 				// старый узел находящийся на том же месте
@@ -186,7 +192,8 @@ tree3.TreetableControl.prototype.updateNodes = function(newNodes, oldNodes, upda
 					// находится на том же месте
 				} else {
 					// необходимо перемещение после предыдущего
-					this.moveToAfterExistSubNode(oldNode, prevNewNode, oldNodes[0]);
+					this.moveToAfterExistSubNode(oldNode, prevNewNode,
+							oldNodes[0]);
 				}
 			} else {
 				// необходимо перемещение в конец
@@ -197,7 +204,7 @@ tree3.TreetableControl.prototype.updateNodes = function(newNodes, oldNodes, upda
 			// нет узла с таким ключом среди старых - необходимо добавить
 			this.appendNewNode(newNode, level, insertInfo);
 		}
-		
+
 		newNode.nodeEl.isLast = isLast;
 		prevNewNode = newNode;
 	}
@@ -206,8 +213,9 @@ tree3.TreetableControl.prototype.updateNodes = function(newNodes, oldNodes, upda
 /**
  * Переместить существующий узел после указанного узла
  */
-tree3.TreetableControl.prototype.moveToAfterExistSubNode = function(movedNode, afterNode, oldFirstNode) {
-	console.log("moveToAfterExistSubNode");
+tree3.TreetableControl.prototype.moveToAfterExistSubNode = function(movedNode,
+		afterNode, oldFirstNode) {
+	// console.log("moveToAfterExistSubNode");
 	var movedNodeEl = movedNode.nodeEl;
 	if (afterNode) {
 		tree3.insertAfter(movedNodeEl, afterNode.nodeEl);
@@ -219,9 +227,9 @@ tree3.TreetableControl.prototype.moveToAfterExistSubNode = function(movedNode, a
 /**
  * Переместить существующий узел
  */
-tree3.TreetableControl.prototype.moveToEndExistSubNode = function(
-		movedNode, afterNode) {
-	console.log("moveToEndExistSubNode");
+tree3.TreetableControl.prototype.moveToEndExistSubNode = function(movedNode,
+		afterNode) {
+	// console.log("moveToEndExistSubNode");
 	var movedNodeEl = movedNode.nodeEl;
 	tree3.insertAfter(movedNodeEl, afterNode.nodeEl);
 };
@@ -235,14 +243,14 @@ tree3.TreetableControl.prototype.deleteExistNode = function(deletedNode) {
 	// рекурсивно удалить и все дочерние узлы
 	var subnodes = deletedNode.children;
 	if (subnodes != null && subnodes.length > 0) {
-		for ( var i = 0; i < subnodes.length; i++) {
+		for (var i = 0; i < subnodes.length; i++) {
 			var subnode = subnodes[i];
 			this.deleteExistNode(subnode);
 		}
 	}
-	
-	if (this.currentSelectedNodeEl &&
-			this.currentSelectedNodeEl.nodeModel.id == deletedNode.id) {
+
+	if (this.currentSelectedNodeEl
+			&& this.currentSelectedNodeEl.nodeModel.id == deletedNode.id) {
 		this.clearSelectionTreeNode();
 		this.removeState();
 	}
@@ -260,7 +268,8 @@ tree3.TreetableControl.prototype.deleteExistNode = function(deletedNode) {
 /**
  * Обновляет узел и все дочерние узлы из новой модели узла
  */
-tree3.TreetableControl.prototype.updateExistNode = function(oldNode, newNode, updateCloseState) {
+tree3.TreetableControl.prototype.updateExistNode = function(oldNode, newNode,
+		updateCloseState) {
 	var nodeEl = oldNode.nodeEl;
 	var oldSubnodes = oldNode.children;
 	var newSubnodes = newNode.children;
@@ -283,7 +292,7 @@ tree3.TreetableControl.prototype.updateExistNode = function(oldNode, newNode, up
 			nodeEl.hasChildren = true;
 		} else {
 			// узел не имеет дочерние элементы. Удаляем все
-			for ( var i = 0; i < oldSubnodes.length; i++) {
+			for (var i = 0; i < oldSubnodes.length; i++) {
 				var oldnode = oldSubnodes[i];
 				this.deleteExistNode(oldnode);
 			}
@@ -295,36 +304,33 @@ tree3.TreetableControl.prototype.updateExistNode = function(oldNode, newNode, up
 		if (hasChildren) {
 			// узел не имел детей, а теперь имеет
 			this.enableChildren(nodeEl, true);
-			
+
 			// если текущий выделенный узел не имел дочерних,
-			// а после обновления стал иметь при этом он находился в открытом состоянии,
-			// то его необходимо открыть вручную 
-			if (updateCloseState && this.currentSelectedNodeEl &&
-					this.currentSelectedNodeEl.nodeModel.id == newNodeModel.id) {
+			// а после обновления стал иметь при этом он находился в открытом
+			// состоянии,
+			// то его необходимо открыть вручную
+			if (updateCloseState
+					&& this.currentSelectedNodeEl
+					&& this.currentSelectedNodeEl.nodeModel.id == newNodeModel.id) {
 				if (nodeEl.opened) {
 					this.setNodeClose(nodeEl, false);
 				}
 			}
 
-			var insertInfo = {
-				prevNode: newNode	
-			};
-			this.appendNewNodes(newSubnodes, nodeEl.level + 1, insertInfo);
+			this.appendNewNodes(newSubnodes, nodeEl.level + 1, {prevNode : newNode});
 			return;
 		}
 	}
-	
+
 	if (updateCloseState) {
 		// close node if need loading
 		if (nodeEl.nodeModel.needLoad) {
 			this.setNodeClose(nodeEl, true);
 		}
 	}
-	
-	var insertInfo = {
-		prevNode: newNode	
-	};
-	this.updateNodes(newSubnodes, oldSubnodes, updateCloseState, nodeEl.level + 1, insertInfo);
+
+	this.updateNodes(newSubnodes, oldSubnodes, updateCloseState,
+			nodeEl.level + 1, {prevNode : newNode});
 };
 
 tree3.TreetableControl.prototype.updateLoadedNode = function(oldNode, newNode) {
@@ -348,9 +354,10 @@ tree3.TreetableControl.prototype.setSelectionTreeNode = function(nodeEl) {
 
 	// снять предыдущий выделенный
 	if (this.currentSelectedNodeEl) {
-		tree3.removeClass(this.currentSelectedNodeEl.nodeSpan, CLASSES.selectedNode);
+		tree3.removeClass(this.currentSelectedNodeEl.nodeSpan,
+				CLASSES.selectedNode);
 	}
-	
+
 	this.currentSelectedNodeEl = nodeEl;
 	tree3.addClass(this.currentSelectedNodeEl.nodeSpan, CLASSES.selectedNode);
 };
@@ -358,7 +365,8 @@ tree3.TreetableControl.prototype.setSelectionTreeNode = function(nodeEl) {
 tree3.TreetableControl.prototype.clearSelectionTreeNode = function() {
 	var CLASSES = tree3.AbstractTreeControl.TREE_CLASSES;
 	if (this.currentSelectedNodeEl) {
-		tree3.removeClass(this.currentSelectedNodeEl.nodeSpan, CLASSES.selectedNode);
+		tree3.removeClass(this.currentSelectedNodeEl.nodeSpan,
+				CLASSES.selectedNode);
 	}
 	this.currentSelectedNodeEl = null;
 };
@@ -369,7 +377,7 @@ tree3.TreetableControl.prototype.clearSelectionTreeNode = function() {
 tree3.TreetableControl.prototype.selectTreeNode = function(nodeEl, setClosed) {
 	this.setSelectionTreeNode(nodeEl);
 	this.setNodeClose(nodeEl, setClosed);
-	
+
 	var requireLoading = nodeEl.nodeModel.needLoad;
 	if (requireLoading) {
 		this.loadChildNodes(nodeEl);
@@ -378,15 +386,16 @@ tree3.TreetableControl.prototype.selectTreeNode = function(nodeEl, setClosed) {
 
 tree3.TreetableControl.prototype.setNodeClose = function(nodeEl, closed) {
 	tree3.AbstractTreeControl.prototype.setNodeClose.apply(this, arguments);
-	
+
 	var hasChildren = nodeEl.hasChildren;
 	if (!hasChildren) {
 		return;
 	}
-	this.processAllChildrenNode(nodeEl.nodeModel, function(childNodeModel, level) {
+	this.processAllChildrenNode(nodeEl.nodeModel, function(childNodeModel,
+			level) {
 		if (closed) {
 			// close all children
-			childNodeModel.nodeEl.style.display = "none";
+			childNodeModel.nodeEl.style.display = 'none';
 			return true;
 		} else {
 			// open node

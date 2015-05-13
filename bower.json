@@ -1,0 +1,30 @@
+{
+	"name": "tree3",
+	"version": "0.0.1",
+	"description": "Tree3 is a tree and tree table widjects. It supports lazy loading data, and drug and drop.",
+	"main": 
+	[
+		"dist/tree3.js",
+		"dist/tree3.css"
+	],
+
+	"repository": 
+	{
+		"type": "git",
+		"url": "git@github.com:megion/tree3.git"
+	},
+
+	"homepage": "https://github.com/megion/tree3",
+	"ignore": 
+	[
+		"**/.*",
+		"node_modules",
+		"bower_components",
+		"src",
+		"test",
+		"gulpfile.js",
+		"karma.conf.js",
+		"examples"
+	],
+	"license": "MIT"
+}

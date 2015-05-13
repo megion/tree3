@@ -1,25 +1,15 @@
 {
-  "bitwise": true,
-  "camelcase": true,
-  "curly": true,
-  "es3": true,
-  "eqnull": true,
-  "freeze": true,
-  "globals": {
-    "console": false,
-    "define": false,
-    "document": false,
-    "expect": false,
-    "MockContainer": false,
-    "module": false,
-    "require": false,
-    "test": false,
-    "window": false
-  },
-  "indent": 4,
-  "maxlen": 80,
-  "noarg": true,
+  //"indent": 4,
+  //"maxlen": 80,
+  //"undef": true,
   "nonew": true,
   "quotmark": "single",
-  "undef": true
+  "curly": true,
+  "immed": true,
+  "newcap": true,
+  "noarg": true,
+  "sub": true,
+  "boss": true,
+  "eqnull": true,
+  "laxbreak": true
 }

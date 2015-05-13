@@ -1,3 +1,11 @@
+/*!
+ * tree3
+ * https://github.com/megion/tree3
+ * Version: 0.0.1 - 2015-05-13T15:43:40.335Z
+ * License: MIT
+ */
+
+
 /**
  * Object namespace
  */
