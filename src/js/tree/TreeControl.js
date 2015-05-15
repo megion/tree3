@@ -35,13 +35,13 @@ tree3.TreeControl.prototype.updateExistUlNodesContainer = function(
 	}
 
 	// новых узлов нет
-	if (newNodes == null || newNodes.length == 0) {
+	if (newNodes === null || newNodes.length === 0) {
 		// данный код сработает только для узлов самого верхнего уровня т.к. для
 		// дочерних узлов сработают проверки в updateExistNode.
 		// если есть старые узлы то их все необходимо удалить и выйти
 		if (oldNodes != null && oldNodes.length > 0) {
-			for (var i = 0; i < oldNodes.length; i++) {
-				var oldnode = oldNodes[i];
+			for (var j = 0; j < oldNodes.length; j++) {
+				var oldnode = oldNodes[j];
 				this.deleteExistSubNode(ulContainer, oldnode);
 			}
 		}
@@ -49,18 +49,20 @@ tree3.TreeControl.prototype.updateExistUlNodesContainer = function(
 	}
 
 	// подготовить new nodes HashMaps (key->nodeId, value->node)
-	var newNodesByKey = new Object();
+	var newNodesByKey = {};
+	var newNode;
 	for (var i = 0; i < newNodes.length; i++) {
-		var newNode = newNodes[i];
+		newNode = newNodes[i];
 		newNodesByKey[newNode.id] = newNode;
 	}
 
 	// подготовить old nodes HashMaps (key->nodeId, value->node), который будет
 	// содержать только не удаленные узлы. В этом же цикле удалить узлы которых
 	// нет в новом наборе узлов
-	var oldNodesByKey = new Object();
-	for (var i = 0; i < oldNodes.length; i++) {
-		var oldNode = oldNodes[i];
+	var oldNodesByKey = {};
+	var oldNode;
+	for (i = 0; i < oldNodes.length; i++) {
+		oldNode = oldNodes[i];
 		if (newNodesByKey[oldNode.id] == null) {
 			// узел был удален
 			this.deleteExistSubNode(ulContainer, oldNode);
@@ -71,15 +73,15 @@ tree3.TreeControl.prototype.updateExistUlNodesContainer = function(
 
 	// поэлементно обновить узлы
 	var prevNewNode = null;
-	for (var i = 0; i < newNodes.length; i++) {
-		var newNode = newNodes[i];
+	for (i = 0; i < newNodes.length; i++) {
+		newNode = newNodes[i];
 		var isLast;
 		if (i == (newNodes.length - 1)) {
 			isLast = true;
 		} else {
 			isLast = false;
 		}
-		var oldNode = oldNodesByKey[newNode.id];
+		oldNode = oldNodesByKey[newNode.id];
 		if (oldNode) {
 			if (i < oldNodes.length) {
 				// старый узел находящийся на том же месте
@@ -161,9 +163,7 @@ tree3.TreeControl.prototype.updateExistNode = function(oldNode, newNode,
 					this.setNodeClose(nodeEl, false);
 				}
 			}
-
-			var ulContainer = nodeEl.subnodesUl;
-			this.appendNewNodes(ulContainer, newSubnodes);
+			this.appendNewNodes(nodeEl.subnodesUl, newSubnodes);
 			return;
 		}
 	}
@@ -174,9 +174,7 @@ tree3.TreeControl.prototype.updateExistNode = function(oldNode, newNode,
 			this.setNodeClose(nodeEl, true);
 		}
 	}
-
-	var ulContainer = nodeEl.subnodesUl;
-	this.updateExistUlNodesContainer(ulContainer, newSubnodes,
+	this.updateExistUlNodesContainer(nodeEl.subnodesUl, newSubnodes,
 					updateCloseState);
 };
 
@@ -185,15 +183,15 @@ tree3.TreeControl.prototype.updateExistNode = function(oldNode, newNode,
  */
 tree3.TreeControl.prototype.enableChildren = function(nodeEl, enable) {
 	if (enable) {
-		var hitareaDiv = document.createElement("div");
+		var hitareaDiv = document.createElement('div');
 		hitareaDiv.className = tree3.AbstractTreeControl.TREE_CLASSES.hitarea
-				+ " " + tree3.AbstractTreeControl.TREE_CLASSES.closedHitarea;
+				+ ' ' + tree3.AbstractTreeControl.TREE_CLASSES.closedHitarea;
 		nodeEl.insertBefore(hitareaDiv, nodeEl.firstChild);
 		nodeEl.hitareaDiv = hitareaDiv;
 		nodeEl.hasChildren = true;
 
-		var ulContainer = document.createElement("ul");
-		ulContainer.style.display = "none";
+		var ulContainer = document.createElement('ul');
+		ulContainer.style.display = 'none';
 		nodeEl.appendChild(ulContainer);
 		nodeEl.subnodesUl = ulContainer;
 	} else {
@@ -210,7 +208,7 @@ tree3.TreeControl.prototype.enableChildren = function(nodeEl, enable) {
  * Создать видимую часть узла
  */
 tree3.TreeControl.prototype.createNodeAppearance = function(nodeEl, nodeModel) {
-	var nodeSpan = document.createElement("span");
+	var nodeSpan = document.createElement('span');
 	nodeSpan.className = tree3.AbstractTreeControl.TREE_CLASSES.treeNode;
 	nodeSpan.innerHTML = nodeModel.title;
 	nodeEl.appendChild(nodeSpan);
@@ -229,7 +227,7 @@ tree3.TreeControl.prototype.updateNodeAppearance = function(nodeEl, nodeModel) {
  * Добавить новый узел
  */
 tree3.TreeControl.prototype.appendNewNode = function(parentUl, newNode) {
-	var newLi = document.createElement("li");
+	var newLi = document.createElement('li');
 
 	// задаем onclick обработчик по умолчанию.
 	// При желании можно поменять перегрузив appendNewNode
@@ -317,7 +315,6 @@ tree3.TreeControl.prototype.moveToEndExistSubNode = function(parentUl,
 
 	// переместить HTML элемент
 	parentUl.appendChild(movedNodeEl);
-	console.log("move '" + movedNode.title + "' to end");
 };
 
 /**
@@ -382,8 +379,8 @@ tree3.TreeControl.prototype.setNodeClose = function(nodeEl, closed) {
 	}
 
 	if (closed) {
-		nodeEl.subnodesUl.style.display = "none";
+		nodeEl.subnodesUl.style.display = 'none';
 	} else {
-		nodeEl.subnodesUl.style.display = "block";
+		nodeEl.subnodesUl.style.display = 'block';
 	}
 };

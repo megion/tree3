@@ -16,18 +16,18 @@ tree3.AbstractTreeControl = function(id, treeEl) {
  * Static tree class name constants
  */
 tree3.AbstractTreeControl.TREE_CLASSES = {
-	selectedNode : "selected",
-	treeNode : "menu",
-	closed : "closed",
-	closedHitarea : "closed-hitarea",
-	lastClosed : "lastClosed",
-	lastClosedHitarea : "lastClosed-hitarea",
-	opened : "opened",
-	openedHitarea : "opened-hitarea",
-	lastOpened : "lastOpened",
-	lastOpenedHitarea : "lastOpened-hitarea",
-	hitarea : "hitarea",
-	firstTdInner : "firstTdInner"
+	selectedNode : 'selected',
+	treeNode : 'menu',
+	closed : 'closed',
+	closedHitarea : 'closed-hitarea',
+	lastClosed : 'lastClosed',
+	lastClosedHitarea : 'lastClosed-hitarea',
+	opened : 'opened',
+	openedHitarea : 'opened-hitarea',
+	lastOpened : 'lastOpened',
+	lastOpenedHitarea : 'lastOpened-hitarea',
+	hitarea : 'hitarea',
+	firstTdInner : 'firstTdInner'
 };
 
 /**
@@ -48,10 +48,10 @@ tree3.AbstractTreeControl.onClickTreeNode = function(event) {
 tree3.AbstractTreeControl.prototype.configure = function(config) {
 	this.conf = config || {};
 	this.disableHistory = this.conf.disableHistory;
-}
+};
 
 tree3.AbstractTreeControl.prototype.clickNode = function(nodeEl, setClosed) {
-	if (setClosed==undefined || setClosed==null) {
+	if (setClosed===undefined || setClosed===null) {
 		setClosed = (nodeEl.opened==null?false:nodeEl.opened);
 	}
 	if (this.disableHistory) {
@@ -82,7 +82,7 @@ tree3.AbstractTreeControl.prototype.processAllNodes = function(processorFn) {
  *            обновляемый узел
  */
 tree3.AbstractTreeControl.prototype.loadChildNodes = function(nodeEl) {
-	console.error("Function loadChildNodes should be overriden");
+	console.error('Function loadChildNodes should be overriden');
 };
 
 /**
@@ -92,14 +92,14 @@ tree3.AbstractTreeControl.prototype.loadChildNodes = function(nodeEl) {
  *            обновляемый узел
  */
 tree3.AbstractTreeControl.prototype.loadTreeScopeNodes = function(nodeId, setClosed, updateCloseState) {
-	console.error("Function loadTreeScopeNodes should be overriden");
+	console.error('Function loadTreeScopeNodes should be overriden');
 };
 
 /**
  * Установить видимость выделения узла
  */
 tree3.AbstractTreeControl.prototype.setSelectionTreeNode = function(nodeEl) {
-	console.error("Function setSelectionTreeNode should be overriden");
+	console.error('Function setSelectionTreeNode should be overriden');
 };
 
 tree3.AbstractTreeControl.prototype.processAllParentNode = function(nodeModel,
@@ -214,9 +214,9 @@ tree3.AbstractTreeControl.prototype.openNode = function(nodeEl, setClosed) {
 tree3.AbstractTreeControl.prototype.getNodeHash = function(nodeEl) {
 	var nodeId = nodeEl.nodeModel.id;
 	if (nodeEl.opened!=null && !nodeEl.opened) {
-		nodeId = nodeId + "&state=closed";
+		nodeId = nodeId + '&state=closed';
 	}
-	return "id-" + nodeId;
+	return 'id-' + nodeId;
 };
 
 tree3.AbstractTreeControl.prototype.getNodeInfoByAnchor = function(anchor) {
@@ -229,7 +229,7 @@ tree3.AbstractTreeControl.prototype.getNodeInfoByAnchor = function(anchor) {
 			setClosed = true;
 		}
 	}
-	var nodeId = path.substring(path.indexOf("-") + 1, path.length);
+	var nodeId = path.substring(path.indexOf('-') + 1, path.length);
 	var info =  {
 		nodeId: nodeId,
 		setClosed: setClosed
